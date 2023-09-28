@@ -4,16 +4,16 @@ variable "hostname" {
 }
 
 variable "iso_url" {
-  type = string
+  type    = string
   default = "https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-12.1.0-amd64-netinst.iso"
 }
 
 variable "iso_storage_pool" {
-  type = string
+  type    = string
   default = "local"
 }
 variable "checksum" {
-  type = string
+  type    = string
   default = "9da6ae5b63a72161d0fd4480d0f090b250c4f6bf421474e4776e82eea5cb3143bf8936bf43244e438e74d581797fe87c7193bbefff19414e33932fe787b1400f"
 }
 
@@ -43,7 +43,7 @@ variable "disk_storage_pool" {
 }
 
 variable "ssh_username" {
-  type = string
+  type    = string
   default = "root"
 }
 variable "ssh_password" {
@@ -84,57 +84,57 @@ variable "proxmox_node" {
 }
 
 variable "vm_id" {
-  type = string
+  type    = string
   default = "9999"
 }
 
 variable "nomad_ver" {
-    type = string
+  type = string
 }
 
 variable "create_nfs_mount" {
-    type = bool
+  type = bool
 }
 
 variable "nfs_server" {
-    type = string
+  type = string
 }
 
 variable "nfs_shares" {
-    type = list(string)
+  type = list(string)
 }
 
 variable "os_user" {
-  type = string
+  type    = string
   default = "nomad"
 }
 
 variable "os_password" {
-  type = string
+  type    = string
   default = "nomad"
 }
 
 variable "enterprise" {
-  type = bool
+  type    = bool
   default = false
 }
 
 variable "consul_install" {
-  type = bool
+  type    = bool
   default = false
 }
 
 variable "license" {
-  type = string
+  type    = string
   default = "license.hclic.tpl"
 }
 
 variable "consul_config" {
-  type = string
+  type    = string
   default = "consul.pkrtpl.hcl"
 }
 
 variable "nomad_config" {
-  type = string
+  type    = string
   default = "nomad.pkrtpl.hcl"
 }

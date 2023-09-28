@@ -35,21 +35,21 @@ source "proxmox-iso" "debian-12" {
   scsi_controller = "virtio-scsi-single"
 
   #iso_file       = var.iso_file
-  iso_url = var.iso_url
-  iso_checksum = "sha512:${var.checksum}"
+  iso_url          = var.iso_url
+  iso_checksum     = "sha512:${var.checksum}"
   iso_storage_pool = var.iso_storage_pool
   #http_directory = "((env "NOMAD_ALLOC_DIR" ))"
   http_content = {
-    "/preseed.cfg" = templatefile( "./preseed.pkrtpl.cfg", {
-        USERNAME="${var.os_user}",
-        PASSWORD="${var.os_password}"
+    "/preseed.cfg" = templatefile("./preseed.pkrtpl.cfg", {
+      USERNAME = "${var.os_user}",
+      PASSWORD = "${var.os_password}"
     })
   }
   // http_port_max = ((env "NOMAD_PORT_http" ))
   // http_port_min = ((env "NOMAD_PORT_http" ))
-  boot_wait      = "10s"
-  boot_command   = ["<esc><wait>auto url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg<enter>"]
-  unmount_iso    = true
+  boot_wait    = "10s"
+  boot_command = ["<esc><wait>auto url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg<enter>"]
+  unmount_iso  = true
 
   cloud_init              = true
   cloud_init_storage_pool = var.cloudinit_storage_pool
@@ -76,7 +76,7 @@ build {
 
   provisioner "file" {
     destination = "/tmp/nomad.hcl"
-    source   = "./${var.nomad_config}"
+    source      = "./${var.nomad_config}"
   }
 
   provisioner "file" {
@@ -86,7 +86,7 @@ build {
 
   provisioner "file" {
     destination = "/tmp/license.hclic"
-    source     = "./${var.license}"
+    source      = "./${var.license}"
   }
 
   provisioner "file" {
@@ -95,10 +95,10 @@ build {
   }
 
   provisioner "shell" {
-    script = "./post.sh"
-    pause_before = "60s"
+    script            = "./post.sh"
+    pause_before      = "60s"
     expect_disconnect = true
-    timeout = "30m"
+    timeout           = "30m"
     environment_vars = [
       "NOMAD_VERSION=${var.nomad_ver}",
       "NFS_SERVER=${var.nfs_server}",
@@ -110,7 +110,7 @@ build {
     ]
   }
 
-    provisioner "shell" {
+  provisioner "shell" {
     inline = ["systemctl enable nomad"]
   }
 

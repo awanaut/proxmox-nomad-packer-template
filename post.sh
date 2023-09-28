@@ -21,9 +21,10 @@ apt install -y podman
 podman system service -t 0 &
 echo "Done!"
 
-#Creating directories...
+echo "Creating directories..."
 mkdir -p /opt/nomad/data/plugins
 mkdir -p /etc/nomad.d 
+echo "Done!"
 
 if [ "${ENTERPRISE}" == true ]; then
   curl --silent --remote-name "https://releases.hashicorp.com/nomad/${NOMAD_VERSION}+ent/nomad_${NOMAD_VERSION}+ent_linux_amd64.zip"
@@ -35,7 +36,7 @@ else
 fi
 
 
-#Configuring Nomad..."
+echo "Configuring Nomad..."
 #Set nomad path owner as root since this will be run as client
 mv ./nomad/nomad /usr/bin/nomad
 chown root:root /usr/bin/nomad
