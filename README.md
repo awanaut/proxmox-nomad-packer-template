@@ -10,6 +10,7 @@ Below are the task drivers enabled on the image, but you are free to customize t
 ## Instructions
 ### Requirements
 1. A functioning Nomad 1.6+ server and client. This can be the same node. I run my primary Nomad server and client node on a Synology NAS and this tool builds the clients on another server with Proxmox.
+2. Packer 1.9+
 2. Proxmox 7.x
 3. Internet Connectivity (for downloading binaries and ISO)
 4. Consul server (If using Consul integration)
