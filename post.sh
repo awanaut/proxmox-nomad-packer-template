@@ -43,6 +43,19 @@ chown root:root /usr/bin/nomad
 nomad -autocomplete-install && complete -C /usr/bin/nomad nomad
 mv /tmp/nomad.hcl /etc/nomad.d/nomad.hcl
 mv /tmp/nomad.service /etc/systemd/system/nomad.service
+curl -L -o cni-plugins.tgz "https://github.com/containernetworking/plugins/releases/download/v1.0.0/cni-plugins-linux-$( [ $(uname -m) = aarch64 ] && echo arm64 || echo amd64)"-v1.0.0.tgz && \
+mkdir -p /opt/cni/bin && \
+tar -C /opt/cni/bin -xzf cni-plugins.tgz
+echo 1 | sudo tee /proc/sys/net/bridge/bridge-nf-call-arptables
+echo 1 | sudo tee /proc/sys/net/bridge/bridge-nf-call-ip6tables
+echo 1 | sudo tee /proc/sys/net/bridge/bridge-nf-call-iptables
+touch /etc/sysctl.d/bridge.conf
+echo "net.bridge.bridge-nf-call-ip6tables = 1" | tee -a /etc/sysctl.d/bridge.conf
+echo "net.bridge.bridge-nf-call-iptables = 1" | tee -a /etc/sysctl.d/bridge.conf
+echo "net.bridge.bridge-nf-call-arptables = 1" | tee -a /etc/sysctl.d/bridge.conf
+echo "vm.max_map_count=262144" | tee -a /etc/sysctl.conf
+
+
 
 if [ "${CONSUL_INSTALL}" == true ]; then
 echo "Downloading and Installing Consul..."
