@@ -21,6 +21,8 @@ apt install -y podman
 podman system service -t 0 &
 echo "Done!"
 
+
+
 echo "Creating directories..."
 mkdir -p /opt/nomad/data/plugins
 mkdir -p /etc/nomad.d 
@@ -70,6 +72,11 @@ wget https://releases.hashicorp.com/nomad-driver-podman/0.5.1/nomad-driver-podma
 7z x nomad-driver-podman_0.5.1_linux_amd64.zip -o./
 mv ./nomad-driver-podman /opt/nomad/data/plugins
 
+echo "Installing Exec2 task driver..."
+curl --silent --remote-name "https://releases.hashicorp.com/nomad-driver-exec2/0.1.0-beta.2/nomad-driver-exec2_0.1.0-beta.2_linux_amd64.zip"
+7z x "nomad-driver-exec2_0.1.0-beta.2_linux_amd64.zip" -o./
+mv ./nomad-driver-exec2 /opt/nomad/data/plugins/nomad-driver-exec2
+echo "Done!"
 
 if [ "${CREATE_NFS_MOUNT}" == true ]; then
 nfs_shares=(${MOUNT})
