@@ -106,7 +106,8 @@ build {
       "OS_USER=${var.os_user}",
       "ENTERPRISE=${var.enterprise}",
       "CONSUL_INSTALL=${var.consul_install}",
-      "CREATE_NFS_MOUNT=${var.create_nfs_mount}"
+      "CREATE_NFS_MOUNT=${var.create_nfs_mount}",
+      "CONSUL_VER=${var.consul_ver}"
     ]
   }
 

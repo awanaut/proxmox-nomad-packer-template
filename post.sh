@@ -13,13 +13,13 @@ apt update -y
 apt upgrade -y
 echo "Done!"
 
-echo "Installing Podman..."
-touch /etc/{subgid,subuid}
-usermod --add-subuids 100000-165535 --add-subgids 100000-165535 ${OS_USER}
-grep ${OS_USER} /etc/subuid /etc/subgid
-apt install -y podman
-podman system service -t 0 &
-echo "Done!"
+# echo "Installing Podman..."
+# touch /etc/{subgid,subuid}
+# usermod --add-subuids 100000-165535 --add-subgids 100000-165535 ${OS_USER}
+# grep ${OS_USER} /etc/subuid /etc/subgid
+# apt install -y podman
+# podman system service -t 0 &
+# echo "Done!"
 
 
 echo "Creating directories..."
@@ -47,19 +47,16 @@ mv /tmp/nomad.service /etc/systemd/system/nomad.service
 curl -L -o cni-plugins.tgz "https://github.com/containernetworking/plugins/releases/download/v1.5.1/cni-plugins-linux-$( [ $(uname -m) = aarch64 ] && echo arm64 || echo amd64)"-v1.5.1.tgz 
 mkdir -p /opt/cni/bin 
 tar -C /opt/cni/bin -xzf cni-plugins.tgz
-# echo 1 > /proc/sys/net/bridge/bridge-nf-call-iptables
-# touch /etc/sysctl.d/bridge.conf
-# echo "net.bridge.bridge-nf-call-iptables = 1" | tee -a /etc/sysctl.d/bridge.conf
 echo "vm.max_map_count=262144" | tee -a /etc/sysctl.conf
-
 
 
 if [ "${CONSUL_INSTALL}" == true ]; then
 echo "Downloading and Installing Consul..."
-apt install -y consul
+apt install -y consul=${CONSUL_VER}-*
 mv /tmp/consul.hcl /etc/consul.d/consul.hcl
 systemctl enable consul
 echo "consul { address = \"127.0.0.1:8500\" }" | tee -a /etc/nomad.d/nomad.hcl
+apt-mark hold consul
 fi 
 
 echo "Downloading and extracting Podman driver..."

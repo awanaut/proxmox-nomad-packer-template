@@ -134,6 +134,10 @@ variable "consul_config" {
   default = "consul.pkrtpl.hcl"
 }
 
+variable "consul_ver" {
+  type = string
+  default = "1.19.2"
+}
 variable "nomad_config" {
   type    = string
   default = "nomad.pkrtpl.hcl"

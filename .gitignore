@@ -1,4 +1,4 @@
 dev-license.hclic.tpl
 dev.auto.pkrvars.hcl
-dev-*
+dev*
 downloaded_iso_path/*
