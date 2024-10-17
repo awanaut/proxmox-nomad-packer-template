@@ -22,7 +22,6 @@ podman system service -t 0 &
 echo "Done!"
 
 
-
 echo "Creating directories..."
 mkdir -p /opt/nomad/data/plugins
 mkdir -p /etc/nomad.d 
@@ -45,16 +44,12 @@ chown root:root /usr/bin/nomad
 nomad -autocomplete-install && complete -C /usr/bin/nomad nomad
 mv /tmp/nomad.hcl /etc/nomad.d/nomad.hcl
 mv /tmp/nomad.service /etc/systemd/system/nomad.service
-curl -L -o cni-plugins.tgz "https://github.com/containernetworking/plugins/releases/download/v1.0.0/cni-plugins-linux-$( [ $(uname -m) = aarch64 ] && echo arm64 || echo amd64)"-v1.0.0.tgz && \
-mkdir -p /opt/cni/bin && \
+curl -L -o cni-plugins.tgz "https://github.com/containernetworking/plugins/releases/download/v1.5.1/cni-plugins-linux-$( [ $(uname -m) = aarch64 ] && echo arm64 || echo amd64)"-v1.5.1.tgz 
+mkdir -p /opt/cni/bin 
 tar -C /opt/cni/bin -xzf cni-plugins.tgz
-echo 1 | sudo tee /proc/sys/net/bridge/bridge-nf-call-arptables
-echo 1 | sudo tee /proc/sys/net/bridge/bridge-nf-call-ip6tables
-echo 1 | sudo tee /proc/sys/net/bridge/bridge-nf-call-iptables
-touch /etc/sysctl.d/bridge.conf
-echo "net.bridge.bridge-nf-call-ip6tables = 1" | tee -a /etc/sysctl.d/bridge.conf
-echo "net.bridge.bridge-nf-call-iptables = 1" | tee -a /etc/sysctl.d/bridge.conf
-echo "net.bridge.bridge-nf-call-arptables = 1" | tee -a /etc/sysctl.d/bridge.conf
+# echo 1 > /proc/sys/net/bridge/bridge-nf-call-iptables
+# touch /etc/sysctl.d/bridge.conf
+# echo "net.bridge.bridge-nf-call-iptables = 1" | tee -a /etc/sysctl.d/bridge.conf
 echo "vm.max_map_count=262144" | tee -a /etc/sysctl.conf
 
 
@@ -77,6 +72,13 @@ curl --silent --remote-name "https://releases.hashicorp.com/nomad-driver-exec2/0
 7z x "nomad-driver-exec2_0.1.0-beta.2_linux_amd64.zip" -o./
 mv ./nomad-driver-exec2 /opt/nomad/data/plugins/nomad-driver-exec2
 echo "Done!"
+
+echo "Downloading and installing Nomad virt driver and pre-reqs..."
+apt install -y bridge-utils cloud-init dnsmasq iptables libvirt-daemon-system qemu-system qemu-system-x86 qemu-utils
+curl --silent --remote-name "https://releases.hashicorp.com/nomad-driver-virt/0.0.1-beta.1/nomad-driver-virt_0.0.1-beta.1_linux_amd64.zip"
+7z x "nomad-driver-virt_0.0.1-beta.1_linux_amd64.zip" -o./
+mv ./nomad-driver-virt /opt/nomad/data/plugins/nomad-driver-virt
+echo "Nomad virt driver installed successfully!"
 
 if [ "${CREATE_NFS_MOUNT}" == true ]; then
 nfs_shares=(${MOUNT})

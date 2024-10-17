@@ -1,7 +1,7 @@
 packer {
   required_plugins {
     proxmox = {
-      version = ">= 1.1.3"
+      version = "~> 1"
       source  = "github.com/hashicorp/proxmox"
     }
   }
@@ -36,7 +36,7 @@ source "proxmox-iso" "debian-12" {
 
   #iso_file       = var.iso_file
   iso_url          = var.iso_url
-  iso_checksum     = "sha512:${var.checksum}"
+  iso_checksum     = "sha256:${var.checksum}"
   iso_storage_pool = var.iso_storage_pool
   #http_directory = "((env "NOMAD_ALLOC_DIR" ))"
   http_content = {

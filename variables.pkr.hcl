@@ -5,7 +5,7 @@ variable "hostname" {
 
 variable "iso_url" {
   type    = string
-  default = "https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-12.1.0-amd64-netinst.iso"
+  default = "https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-12.7.0-amd64-netinst.iso"
 }
 
 variable "iso_storage_pool" {
@@ -14,7 +14,7 @@ variable "iso_storage_pool" {
 }
 variable "checksum" {
   type    = string
-  default = "9da6ae5b63a72161d0fd4480d0f090b250c4f6bf421474e4776e82eea5cb3143bf8936bf43244e438e74d581797fe87c7193bbefff19414e33932fe787b1400f"
+  default = "8fde79cfc6b20a696200fc5c15219cf6d721e8feb367e9e0e33a79d1cb68fa83"
 }
 
 variable "cloudinit_storage_pool" {
